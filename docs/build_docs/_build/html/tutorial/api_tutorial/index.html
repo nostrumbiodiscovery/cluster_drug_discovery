@@ -88,7 +88,12 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Getting Started</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">From python API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#analyze-dataset">Analyze Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analyze-dataset">Analyze Dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#silhouette">Silhouette</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#carlinski">Carlinski</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#david-bouldin">David-Bouldin</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../command_line_tutorial/index.html">From Command Line</a></li>
@@ -167,15 +172,22 @@
 <h1>From python API<a class="headerlink" href="#from-python-api" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="analyze-dataset">
 <h2>Analyze Dataset<a class="headerlink" href="#analyze-dataset" title="Permalink to this headline">¶</a></h2>
+<p>Tha analysis is based on:</p>
+<ul class="simple">
+<li>Silhouette index:  The silhouette value is a measure of how similar an object is to its own cluster (cohesion) compared to other clusters (separation). Therefore, as high as possible the better.</li>
+<li>Calinski-Harabasz index: The score is defined as ratio between the within-cluster dispersion and the between-cluster dispersion.</li>
+<li>David-Bouldin index: The score refers to a model with better separation between the clusters.</li>
+</ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="k">import</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">mixture</span>
 <span class="kn">import</span> <span class="nn">cluster_drug_discovery.methods.kmeans</span> <span class="k">as</span> <span class="nn">ks</span>
 
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
 <span class="n">cluster</span> <span class="o">=</span> <span class="n">ks</span><span class="o">.</span><span class="n">KmeansAlg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">nclust</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">cluster</span><span class="o">.</span><span class="n">silhouette</span><span class="p">()</span>
+<span class="n">cluster</span><span class="o">.</span><span class="n">analysis_run</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Results:</p>
+<div class="section" id="silhouette">
+<h3>Silhouette<a class="headerlink" href="#silhouette" title="Permalink to this headline">¶</a></h3>
 <p>As seen in the pictures belowe as high the silhoutte coeficient
 is the better the clustering. As the silhoutte coefficient give us
 a sense of how separate each point is from the other clusters</p>
@@ -186,7 +198,25 @@ a sense of how separate each point is from the other clusters</p>
 <a class="reference internal image-reference" href="../../_images/silhouette_3.png"><img alt="../../_images/silhouette_3.png" src="../../_images/silhouette_3.png" style="width: 900.0px; height: 350.0px;" /></a>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="../../_images/silhouette_6.png"><img alt="../../_images/silhouette_6.png" src="../../_images/silhouette_6.png" style="width: 720.0px; height: 280.0px;" /></a>
+<a class="reference internal image-reference" href="../../_images/silhouette_4.png"><img alt="../../_images/silhouette_4.png" src="../../_images/silhouette_4.png" style="width: 900.0px; height: 350.0px;" /></a>
+</div>
+</div>
+<div class="section" id="carlinski">
+<h3>Carlinski<a class="headerlink" href="#carlinski" title="Permalink to this headline">¶</a></h3>
+<p>In terms of the  Calinski-Harabasz index the score is higher when clusters are dense and well separated,
+which relates to a standard concept of a cluster. The score is fast to compute</p>
+<p>Whereas, The Calinski-Harabasz index is generally higher for convex clusters than other concepts of clusters,
+such as density based clusters like those obtained through DBSCAN.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/calinski_score.png"><img alt="../../_images/calinski_score.png" src="../../_images/calinski_score.png" style="width: 512.0px; height: 384.0px;" /></a>
+</div>
+</div>
+<div class="section" id="david-bouldin">
+<h3>David-Bouldin<a class="headerlink" href="#david-bouldin" title="Permalink to this headline">¶</a></h3>
+<p>The David-Bouldin score refers to a model with better separation between the clusters since algorithms that produce clusters with low intra-cluster distances (high intra-cluster similarity) and high inter-cluster distances (low inter-cluster similarity) will have a low Davies–Bouldin index, the clustering algorithm that produces a collection of clusters with the smallest Davies–Bouldin index is considered the best algorithm based on this criterion.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/davidbouldin_score.png"><img alt="../../_images/davidbouldin_score.png" src="../../_images/davidbouldin_score.png" style="width: 512.0px; height: 384.0px;" /></a>
+</div>
 </div>
 </div>
 </div>
