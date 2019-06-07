@@ -92,6 +92,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#silhouette">Silhouette</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#carlinski">Carlinski</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#david-bouldin">David-Bouldin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis-conclusion">Analysis Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#clustering-algorithms">Clustering Algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kmeans">Kmeans</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dbscan">DBSCAN</a></li>
 </ul>
 </li>
 </ul>
@@ -190,7 +196,11 @@
 <h3>Silhouette<a class="headerlink" href="#silhouette" title="Permalink to this headline">¶</a></h3>
 <p>As seen in the pictures belowe as high the silhoutte coeficient
 is the better the clustering. As the silhoutte coefficient give us
-a sense of how separate each point is from the other clusters</p>
+a sense of how separate each point is from the other clusters.</p>
+<p>Therefore, when we move from 3 to 4 clusters the silhouette index
+of the first and second cluster clearly drops as they are next to each
+other in the feature space while with nclusters=3 all clusters were very
+separated.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../../_images/silhouette_2.png"><img alt="../../_images/silhouette_2.png" src="../../_images/silhouette_2.png" style="width: 900.0px; height: 350.0px;" /></a>
 </div>
@@ -204,9 +214,13 @@ a sense of how separate each point is from the other clusters</p>
 <div class="section" id="carlinski">
 <h3>Carlinski<a class="headerlink" href="#carlinski" title="Permalink to this headline">¶</a></h3>
 <p>In terms of the  Calinski-Harabasz index the score is higher when clusters are dense and well separated,
-which relates to a standard concept of a cluster. The score is fast to compute</p>
-<p>Whereas, The Calinski-Harabasz index is generally higher for convex clusters than other concepts of clusters,
+which relates to a standard concept of a cluster. The score is fast to compute.
+Whereas, The Calinski-Harabasz index is generally higher for convex clusters than other concepts of clusters,
 such as density based clusters like those obtained through DBSCAN.</p>
+<p>As seen in the plot belowe as Calinski index is based only on density it gives a better
+score for ncluster=4 than ncluster=3 as the clusters are smaller and therefore more dense.
+However, that does not mean that the result is better. In conclusion, this index give us usufull
+information about the cluster density but must be use with other indexes like the silhoutte.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../../_images/calinski_score.png"><img alt="../../_images/calinski_score.png" src="../../_images/calinski_score.png" style="width: 512.0px; height: 384.0px;" /></a>
 </div>
@@ -214,8 +228,96 @@ such as density based clusters like those obtained through DBSCAN.</p>
 <div class="section" id="david-bouldin">
 <h3>David-Bouldin<a class="headerlink" href="#david-bouldin" title="Permalink to this headline">¶</a></h3>
 <p>The David-Bouldin score refers to a model with better separation between the clusters since algorithms that produce clusters with low intra-cluster distances (high intra-cluster similarity) and high inter-cluster distances (low inter-cluster similarity) will have a low Davies–Bouldin index, the clustering algorithm that produces a collection of clusters with the smallest Davies–Bouldin index is considered the best algorithm based on this criterion.</p>
+<p>As seen in the plot below we can clearly differenciate that moving from nclust=2 to nclust=3 the intra-cluster
+distance gets better. However, from nclust=3 and nclust=4 the intra-cluster distance remains the same and the
+values does no change that much.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../../_images/davidbouldin_score.png"><img alt="../../_images/davidbouldin_score.png" src="../../_images/davidbouldin_score.png" style="width: 512.0px; height: 384.0px;" /></a>
+</div>
+</div>
+<div class="section" id="analysis-conclusion">
+<h3>Analysis Conclusion<a class="headerlink" href="#analysis-conclusion" title="Permalink to this headline">¶</a></h3>
+<p>All indexes give useful information, then the most efficient anlysis
+to set the clustering parameters would be to put the three of them
+together with some visualization tool (dimensionallity reduction).</p>
+</div>
+</div>
+<div class="section" id="clustering-algorithms">
+<h2>Clustering Algorithms<a class="headerlink" href="#clustering-algorithms" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="kmeans">
+<h3>Kmeans<a class="headerlink" href="#kmeans" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul>
+<li><p class="first">Advantages :</p>
+<blockquote>
+<div><ul class="simple">
+<li>If variables are huge, then  K-Means most of the times computationally faster than hierarchical clustering, if we keep k smalls.</li>
+<li>K-Means produce tighter clusters than hierarchical clustering, especially if the clusters are globular.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Disadvantages :</p>
+<blockquote>
+<div><ul class="simple">
+<li>Difficult to predict K-Value.</li>
+<li>With global cluster, it didn’t work well.</li>
+<li>Different initial partitions can result in different final clusters.</li>
+<li>It does not work well with different size and density clusters</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>Learn more: <a class="reference external" href="https://en.wikipedia.org/wiki/K-means_clustering">https://en.wikipedia.org/wiki/K-means_clustering</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cluster_drug_discovery.methods</span> <span class="k">import</span> <span class="n">kmeans</span>
+<span class="n">cluster</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">KmeansAlg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">nclust</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">i_dataset</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Kmeans works for globular clusters:</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/kmeans_work.png"><img alt="../../_images/kmeans_work.png" src="../../_images/kmeans_work.png" style="width: 512.0px; height: 384.0px;" /></a>
+</div>
+<p>But not for density-different o converx clusters:</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/kmeans_no_work.png"><img alt="../../_images/kmeans_no_work.png" src="../../_images/kmeans_no_work.png" style="width: 512.0px; height: 384.0px;" /></a>
+</div>
+</div>
+<div class="section" id="dbscan">
+<h3>DBSCAN<a class="headerlink" href="#dbscan" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul>
+<li><p class="first">Advantages of DBSCAN:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Is great at separating clusters of high density versus clusters of low density within a given dataset.</li>
+<li>Is great with handling outliers within the dataset.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Disadvantages of DBSCAN:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Does not work well when dealing with clusters of varying densities. While DBSCAN is great at separating high density clusters from low density clusters, DBSCAN struggles with clusters of similar density.</li>
+<li>Struggles with high dimensionality data. I know, this entire article I have stated how DBSCAN is great at contorting the data into different dimensions and shapes. However, DBSCAN can only go so far, if given data with too many dimensions, DBSCAN suffers</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<blockquote>
+<div><p>Learn more: <a class="reference external" href="https://en.wikipedia.org/wiki/DBSCAN">https://en.wikipedia.org/wiki/DBSCAN</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cluster_drug_discovery.methods</span> <span class="k">import</span> <span class="n">dbscan</span>
+<span class="n">cluster</span> <span class="o">=</span> <span class="n">dbscan</span><span class="o">.</span><span class="n">DbscanAlg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">nclust</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">i_dataset</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div></blockquote>
+<p>DBSCAN works for non globular clusters but suffers with high dimensionallity</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/dbscan.png"><img alt="../../_images/dbscan.png" src="../../_images/dbscan.png" style="width: 512.0px; height: 384.0px;" /></a>
 </div>
 </div>
 </div>

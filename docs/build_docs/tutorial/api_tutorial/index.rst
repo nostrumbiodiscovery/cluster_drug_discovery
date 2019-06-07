@@ -53,7 +53,7 @@ Carlinski
 
 In terms of the  Calinski-Harabasz index the score is higher when clusters are dense and well separated,
 which relates to a standard concept of a cluster. The score is fast to compute.
- Whereas, The Calinski-Harabasz index is generally higher for convex clusters than other concepts of clusters,
+Whereas, The Calinski-Harabasz index is generally higher for convex clusters than other concepts of clusters,
 such as density based clusters like those obtained through DBSCAN.
 
 As seen in the plot belowe as Calinski index is based only on density it gives a better 
@@ -88,3 +88,75 @@ Analysis Conclusion
 All indexes give useful information, then the most efficient anlysis
 to set the clustering parameters would be to put the three of them
 together with some visualization tool (dimensionallity reduction).
+
+
+Clustering Algorithms
+------------------------
+
+Kmeans
+````````
+
+     - Advantages :
+    
+        -  If variables are huge, then  K-Means most of the times computationally faster than hierarchical clustering, if we keep k smalls.
+    
+        -  K-Means produce tighter clusters than hierarchical clustering, especially if the clusters are globular.
+    
+     - Disadvantages :
+    
+        - Difficult to predict K-Value.
+        - With global cluster, it didn't work well.
+        - Different initial partitions can result in different final clusters.
+        - It does not work well with different size and density clusters
+
+
+     Learn more: https://en.wikipedia.org/wiki/K-means_clustering
+
+     ::
+
+        from cluster_drug_discovery.methods import kmeans
+        cluster = kmeans.KmeansAlg(X, nclust=3) 
+        y_pred = cluster.run()
+        pl.plot(X[:, 0], X[:, 1], y_pred, output=str(i_dataset))
+
+Kmeans works for globular clusters:
+    
+.. figure:: images/kmeans_work.png
+    :scale: 80%
+    :align: center
+
+But not for density-different o converx clusters:
+
+.. figure:: images/kmeans_no_work.png
+    :scale: 80%
+    :align: center
+
+
+DBSCAN
+````````
+    - Advantages of DBSCAN:
+    
+        - Is great at separating clusters of high density versus clusters of low density within a given dataset.
+        - Is great with handling outliers within the dataset.
+    
+    - Disadvantages of DBSCAN:
+    
+        - Does not work well when dealing with clusters of varying densities. While DBSCAN is great at separating high density clusters from low density clusters, DBSCAN struggles with clusters of similar density.
+        - Struggles with high dimensionality data. I know, this entire article I have stated how DBSCAN is great at contorting the data into different dimensions and shapes. However, DBSCAN can only go so far, if given data with too many dimensions, DBSCAN suffers
+    
+    
+     Learn more: https://en.wikipedia.org/wiki/DBSCAN
+
+     ::
+
+        from cluster_drug_discovery.methods import dbscan
+        cluster = dbscan.DbscanAlg(X, nclust=3) 
+        y_pred = cluster.run()
+        pl.plot(X[:, 0], X[:, 1], y_pred, output=str(i_dataset))
+
+DBSCAN works for non globular clusters but suffers with high dimensionallity
+    
+.. figure:: images/dbscan.png
+    :scale: 80%
+    :align: center
+

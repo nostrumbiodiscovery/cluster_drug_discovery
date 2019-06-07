@@ -1,195 +1,162 @@
 From python API
 =================
 
-Download examples
--------------------
 
-From command line: git clone https://github.com/NostrumBioDiscovery/analogs_finder.git
-
-
-Load your query molecule and your database
+Analyze Dataset
 --------------------------------------------
 
-::
+Tha analysis is based on:
 
-  from rdkit import Chem
+- Silhouette index:  The silhouette value is a measure of how similar an object is to its own cluster (cohesion) compared to other clusters (separation). Therefore, as high as possible the better.
 
-  database = "analogs_finder/examples/database.sdf"
-  qmolecule = "analogs_finder/examples/substructre_1.sdf"
+- Calinski-Harabasz index: The score is defined as ratio between the within-cluster dispersion and the between-cluster dispersion.
 
-  molecules_db= Chem.SDMolSupplier(database)
-  molecule_query = next(Chem.SDMolSupplier(qmolecule))
-
-Analyze your dataset
------------------------
-
-The command below will output the tanimoto similarity distribution among
-all dataset and all fingerprints, at the same time will show a plot
-of the two first components of the PCA over the fingerprint space coloured
-by similarity to your query molecule. If we hover the points of the plot
-we can inspect the different structures of the molecules.
+- David-Bouldin index: The score refers to a model with better separation between the clusters.
 
 ::
+
   
-  from analogs_finder.analysis import analysis_dataset as an
+  from sklearn import cluster, datasets, mixture
+  import cluster_drug_discovery.methods.kmeans as ks
+
+  X, y = datasets.make_blobs(n_samples=n_samples, random_state=random_state)
+  cluster = ks.KmeansAlg(X, nclust=3)
+  cluster.analysis_run() 
 
 
-  #Use Uniform manifold to plot the chemical space
-  an.main(molecule_query, molecules_db, dim_type="umap")
+Silhouette
+````````````````````
+As seen in the pictures belowe as high the silhoutte coeficient 
+is the better the clustering. As the silhoutte coefficient give us
+a sense of how separate each point is from the other clusters.
 
-  #Use PCA to plot the chemical space
-  an.main(molecule_query, molecules_db, dim_type="pca")
- 
+Therefore, when we move from 3 to 4 clusters the silhouette index
+of the first and second cluster clearly drops as they are next to each 
+other in the feature space while with nclusters=3 all clusters were very
+separated.
 
-We find the similarity_hist_DL.png:
 
-.. figure:: ../../images/fp_dist.png
+.. figure:: images/silhouette_2.png
+    :scale: 50%
+    :align: center
+
+.. figure:: images/silhouette_3.png
+    :scale: 50%
+    :align: center
+
+.. figure:: images/silhouette_4.png
+    :scale: 50%
+    :align: center
+
+Carlinski
+``````````````````
+
+In terms of the  Calinski-Harabasz index the score is higher when clusters are dense and well separated,
+which relates to a standard concept of a cluster. The score is fast to compute.
+Whereas, The Calinski-Harabasz index is generally higher for convex clusters than other concepts of clusters,
+such as density based clusters like those obtained through DBSCAN.
+
+As seen in the plot belowe as Calinski index is based only on density it gives a better 
+score for ncluster=4 than ncluster=3 as the clusters are smaller and therefore more dense.
+However, that does not mean that the result is better. In conclusion, this index give us usufull
+information about the cluster density but must be use with other indexes like the silhoutte.
+
+
+.. figure:: images/calinski_score.png
     :scale: 80%
     :align: center
 
-And a firefox window opens retrieving and interactive plot:
+
+David-Bouldin
+```````````````````````
+
+The David-Bouldin score refers to a model with better separation between the clusters since algorithms that produce clusters with low intra-cluster distances (high intra-cluster similarity) and high inter-cluster distances (low inter-cluster similarity) will have a low Davies–Bouldin index, the clustering algorithm that produces a collection of clusters with the smallest Davies–Bouldin index is considered the best algorithm based on this criterion.
+
+As seen in the plot below we can clearly differenciate that moving from nclust=2 to nclust=3 the intra-cluster
+distance gets better. However, from nclust=3 and nclust=4 the intra-cluster distance remains the same and the 
+values does no change that much.
 
 
-.. figure:: ../../images/chemical_space.png
+.. figure:: images/davidbouldin_score.png
     :scale: 80%
     :align: center
 
-Most Similars n Molecules
---------------------------------------
 
-The search_most_similars method will output the n
-molecules from your database most similar to your
-query molecule
+Analysis Conclusion
+`````````````````````
 
-::
-  
-  from analogs_finder.search_methods import methods as mt
-  from analogs_finder.helpers import helpers as hp
-
-  output = "most_similars.sdf"
-  n_structs = 50
-
-  similars  = mt.search_most_similars(molecule_query, molecules_db, n_structs)
-  similars_no_duplicates = hp.remove_duplicates(similars)
-  
-  w = Chem.SDWriter(output)
-  for m in similars_no_duplicates: w.write(m.molecule)
+All indexes give useful information, then the most efficient anlysis
+to set the clustering parameters would be to put the three of them
+together with some visualization tool (dimensionallity reduction).
 
 
-Tanimoto Similarity Search
-------------------------------
+Clustering Algorithms
+------------------------
 
-The search_similarity_tresh method will output
-all molecules that have a tanimoto similarity higher
-than a desired treshold
+Kmeans
+````````
 
-::
-
-  treshold = 0.6
-
-  similars  = mt.search_similarity_tresh(molecule_query, molecules_db, treshold)
-  similars_no_duplicates = hp.remove_duplicates(similars)
-  
-  w = Chem.SDWriter(output)
-  for m in similars_no_duplicates: w.write(m.molecule)
-
-
-Substructure Search
------------------------
-
-The search_substructure will output molecules
-with at least one of the substructures on you query sdf file
-
-::
-
-  substructures = "analogs_finder/examples/substructre_2.sdf"
-
-  molecule_query = Chem.SDMolSupplier(substructures)
-  similars  = mt.search_substructure(molecule_query, molecules_db)
-  similars_no_duplicates = hp.remove_duplicates(similars)
-  
-  w = Chem.SDWriter(output)
-  for m in similars_no_duplicates: w.write(m.molecule)
-
-Combinatorial Substructure Search
----------------------------------------
-
-The combi_substructure_search will output all molecules
-with at least one substructures of each of the inputted
-substructures sdf files
-
-For example: I could look for structures with a 6 and 5 memeber ring,
-so I will pass this two substructures in a sdf so at least one of them
-have to be in the outputted molecules. But, at the same time I also want to
-have an amide so I will pass another sdf file with  the amide substructure.
-Finally, I will obtain structures with an amide and either a 5 or 6 memebr ring
+     - Advantages :
+    
+        -  If variables are huge, then  K-Means most of the times computationally faster than hierarchical clustering, if we keep k smalls.
+    
+        -  K-Means produce tighter clusters than hierarchical clustering, especially if the clusters are globular.
+    
+     - Disadvantages :
+    
+        - Difficult to predict K-Value.
+        - With global cluster, it didn't work well.
+        - Different initial partitions can result in different final clusters.
+        - It does not work well with different size and density clusters
 
 
-::
+     Learn more: https://en.wikipedia.org/wiki/K-means_clustering
 
-  import glob
+     ::
 
-  substructures_sdf = glob.glob("analogs_finder/examples/subs*.sdf")
+        from cluster_drug_discovery.methods import kmeans
+        cluster = kmeans.KmeansAlg(X, nclust=3) 
+        y_pred = cluster.run()
+        pl.plot(X[:, 0], X[:, 1], y_pred, output=str(i_dataset))
 
-  similars = mt.combi_substructure_search(substructures_sdf, molecules_db)
-  similars_no_duplicates = hp.remove_duplicates(similars)
-  
-  w = Chem.SDWriter(output)
-  for m in similars_no_duplicates: w.write(m.molecule)
+Kmeans works for globular clusters:
+    
+.. figure:: images/kmeans_work.png
+    :scale: 80%
+    :align: center
 
+But not for density-different o converx clusters:
 
-Similarity and Substructure hybrid search
-------------------------------------------
-
-The most_similar_with_substructure method will output
-molecules with a tanimoto similarity coefficient higher 
-than certain treshold that also contain certain substructure
-
-::
-
-  substructure_file = "analogs_finder/examples/substructre_3.sdf"
-
-  similars = mt.most_similar_with_substructure(molecule_query, molecules_db, substructure_file, treshold=0.1)
-  
-  w = Chem.SDWriter(output)
-  for m in similars_no_duplicates: w.write(m.molecule)
+.. figure:: images/kmeans_no_work.png
+    :scale: 80%
+    :align: center
 
 
+DBSCAN
+````````
+    - Advantages of DBSCAN:
+    
+        - Is great at separating clusters of high density versus clusters of low density within a given dataset.
+        - Is great with handling outliers within the dataset.
+    
+    - Disadvantages of DBSCAN:
+    
+        - Does not work well when dealing with clusters of varying densities. While DBSCAN is great at separating high density clusters from low density clusters, DBSCAN struggles with clusters of similar density.
+        - Struggles with high dimensionality data. I know, this entire article I have stated how DBSCAN is great at contorting the data into different dimensions and shapes. However, DBSCAN can only go so far, if given data with too many dimensions, DBSCAN suffers
+    
+    
+     Learn more: https://en.wikipedia.org/wiki/DBSCAN
 
-Use different fingerprints
-------------------------------
+     ::
 
-::
+        from cluster_drug_discovery.methods import dbscan
+        cluster = dbscan.DbscanAlg(X, nclust=3) 
+        y_pred = cluster.run()
+        pl.plot(X[:, 0], X[:, 1], y_pred, output=str(i_dataset))
 
-  molecule_query = next(Chem.SDMolSupplier("examples/query_molecule.sdf"))
-  substructure_file = "examples/substructure.sdf"
+DBSCAN works for non globular clusters but suffers with high dimensionallity
+    
+.. figure:: images/dbscan.png
+    :scale: 80%
+    :align: center
 
-  similars_daylight = mt.search_most_similars(molecule_query, molecules_db, 2, fp_type="DL")
-  similars_circular = mt.search_most_similars(molecule_query, molecules_db, 2, fp_type="circular")
-  similars_torsions = mt.search_most_similars(molecule_query, molecules_db, 2, fp_type="torsions")
-  similars_MACCS = mt.search_most_similars(molecule_query, molecules_db, 2, fp_type="MACCS")
-  similars_pharm = mt.search_most_similars(molecule_query, molecules_db, 2, fp_type="pharm")
-
-
-Use all four fingerprints to query one database with different tresholds
--------------------------------------------------------------------------------
-
-::
-
-  tresholds = [0.7, 0.4, 0.4, 0.6]
-  fp_types = ["DL", "circular", "torsions", "MACCS"]
-  similarts = mt.search_similarity_tresh_several_fp(molecule_query, molecules_db, tresholds=tresholds, fp_types=fp_types)
-
-Turbo search method:
-----------------------
-
-Instead of just querying the reference molecule and setting a tanimoto treshold,
-we first look for the N most similar neighbours and we run similarity search with
-the reference molecule and theses neghbours, finally performing data fusion.
-
-For more details: https://onlinelibrary.wiley.com/doi/abs/10.1002/sam.10037
-
-::
-
- import analogs_finder.search_methods.fusion as fs
- turbo_similars = fs.turbo_similarity(molecule_query, molecules_db, neighbours=5, treshold=0.4, fp_type="circular") 

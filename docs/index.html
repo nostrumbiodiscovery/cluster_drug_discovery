@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Analogs Finder &mdash; analogs finder 1.0.0 documentation</title>
+  <title>Cluster Algorithms for Drug Discovery &mdash; cluster_drug_discovery 1.0.0 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> analogs finder
+            <a href="#" class="icon icon-home"> cluster_drug_discovery
           
 
           
@@ -103,7 +103,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">analogs finder</a>
+          <a href="#">cluster_drug_discovery</a>
         
       </nav>
 
@@ -134,7 +134,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>Analogs Finder</li>
+      <li>Cluster Algorithms for Drug Discovery</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -153,16 +153,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="analogs-finder">
-<h1>Analogs Finder<a class="headerlink" href="#analogs-finder" title="Permalink to this headline">¶</a></h1>
-<p>Analogs finder is a python based query-search engine for drug discovery.
-It allows the user to perform queries based on molecule
-similarity or substructure matching to retrieve similar analogs
-from your initial molecule.</p>
-<p>Github : <a class="reference external" href="https://github.com/danielSoler93/analogs_finder">https://github.com/danielSoler93/analogs_finder</a></p>
-<p>Molecule query and its search result:</p>
+  <div class="section" id="cluster-algorithms-for-drug-discovery">
+<h1>Cluster Algorithms for Drug Discovery<a class="headerlink" href="#cluster-algorithms-for-drug-discovery" title="Permalink to this headline">¶</a></h1>
+<p>Github : <a class="reference external" href="https://github.com/danielSoler93/cluster_drug_discovery">https://github.com/danielSoler93/cluster_drug_discovery</a></p>
+<p>Cluster drug discovery is a specific python package to
+handle clustering in drug discovery. The main aim of
+the package is not to give a general cluster method that
+works in all cases (as it does not exist) but to give the
+possibility to clusterize in an easy manner and to asses
+the quality of the results.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/query_result.png"><img alt="_images/query_result.png" src="_images/query_result.png" style="width: 456.8px; height: 204.0px;" /></a>
+<a class="reference internal image-reference" href="_images/cluster.png"><img alt="_images/cluster.png" src="_images/cluster.png" style="width: 512.0px; height: 384.0px;" /></a>
+</div>
+</div>
+<div class="section" id="structure-of-the-package">
+<h1>Structure of the Package<a class="headerlink" href="#structure-of-the-package" title="Permalink to this headline">¶</a></h1>
+<p>The package consist of three parts:</p>
+<ol class="arabic simple">
+<li>An input preprocessing to rapidly convert features from your pdb, xtc, dcd to numerical values</li>
+<li>The Clustering main class containing a high level object to wrap all cluster algorithms</li>
+<li>An analysis package to asses how good is your cluster and what could be improved</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/structure.png"><img alt="_images/structure.png" src="_images/structure.png" style="width: 768.0px; height: 432.0px;" /></a>
 </div>
 </div>
 <div class="section" id="documentation">
@@ -181,17 +194,18 @@ from your initial molecule.</p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/api_tutorial/index.html">From python API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tutorial/api_tutorial/index.html#download-examples">Download examples</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial/api_tutorial/index.html#load-your-query-molecule-and-your-database">Load your query molecule and your database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial/api_tutorial/index.html#analyze-your-dataset">Analyze your dataset</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial/api_tutorial/index.html#most-similars-n-molecules">Most Similars n Molecules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial/api_tutorial/index.html#tanimoto-similarity-search">Tanimoto Similarity Search</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial/api_tutorial/index.html#substructure-search">Substructure Search</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial/api_tutorial/index.html#combinatorial-substructure-search">Combinatorial Substructure Search</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial/api_tutorial/index.html#similarity-and-substructure-hybrid-search">Similarity and Substructure hybrid search</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial/api_tutorial/index.html#use-different-fingerprints">Use different fingerprints</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial/api_tutorial/index.html#use-all-four-fingerprints-to-query-one-database-with-different-tresholds">Use all four fingerprints to query one database with different tresholds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial/api_tutorial/index.html#turbo-search-method">Turbo search method:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/api_tutorial/index.html#analyze-dataset">Analyze Dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/api_tutorial/index.html#silhouette">Silhouette</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/api_tutorial/index.html#carlinski">Carlinski</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/api_tutorial/index.html#david-bouldin">David-Bouldin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/api_tutorial/index.html#analysis-conclusion">Analysis Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/api_tutorial/index.html#clustering-algorithms">Clustering Algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/api_tutorial/index.html#kmeans">Kmeans</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/api_tutorial/index.html#dbscan">DBSCAN</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/command_line_tutorial/index.html">From Command Line</a><ul>
