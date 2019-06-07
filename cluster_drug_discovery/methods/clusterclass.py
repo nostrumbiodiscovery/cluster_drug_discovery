@@ -1,4 +1,4 @@
-import cluster_drug_discovery.metrics.silhouette as sl
+import cluster_drug_discovery.analysis.metrics as ms
 
 
 class Cluster(object):
@@ -10,7 +10,8 @@ class Cluster(object):
         self._labels = self._run()
         return self._labels
 
-    def silhouette(self):
-        sl.silhouette_run(self.data, self)
+    def analyze(self):
+        ms.analysis_run(self.data, self)
+
         
 

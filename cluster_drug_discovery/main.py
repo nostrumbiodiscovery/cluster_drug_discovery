@@ -1,7 +1,7 @@
 import argparse
 import numpy as np
 from sklearn.datasets import make_blobs
-import cluster_drug_discovery.methods.kmeans as ks
+from cluster_drug_discovery.methods import kmeans, dbscan 
 import cluster_drug_discovery.visualization.plots as pl
 from sklearn import cluster, datasets, mixture
 
@@ -58,9 +58,10 @@ if __name__ == "__main__":
         (blobs, {}),
         (no_structure, {})]
 
-    for i_dataset, (dataset, algo_params) in enumerate(datasets):
+    for i_dataset, (dataset, algo_params) in enumerate(datasets[4:5]):
         X, y = dataset
-        cluster = ks.KmeansAlg(X, nclust=3)
+        cluster = dbscan.DbscanAlg(X, epsilon=3)
+        cluster.analyze() 
+        cluster.nclust = 3
         y_pred = cluster.run()
         pl.plot(X[:, 0], X[:, 1], y_pred, output=str(i_dataset))
-        cluster.silhouette() 
