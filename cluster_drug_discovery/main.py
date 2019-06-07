@@ -1,7 +1,7 @@
 import argparse
 import numpy as np
 from sklearn.datasets import make_blobs
-from cluster_drug_discovery.methods import kmeans, dbscan 
+from cluster_drug_discovery.methods import kmeans, dbscan, agglomerative 
 import cluster_drug_discovery.visualization.plots as pl
 from sklearn import cluster, datasets, mixture
 
@@ -61,7 +61,8 @@ if __name__ == "__main__":
     for i_dataset, (dataset, algo_params) in enumerate(datasets[4:5]):
         X, y = dataset
         #cluster = dbscan.DbscanAlg(X, epsilon=3)
-        cluster = kmeans.KmeansAlg(X, nclust=3)
+        #cluster = kmeans.KmeansAlg(X, nclust=3)
+        cluster = agglomerative.AgglomerativeAlg(X, nclust=3) 
         cluster.analyze() 
         cluster.nclust = 3
         y_pred = cluster.run()

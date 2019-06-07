@@ -9,6 +9,7 @@ import numpy as np
 
 def analysis_run(X, cluster_obj, range_n_clusters = [2, 3, 4, 5, 6]):
 
+    silhouette_scores = []
     calisnki_scores = []
     david_bouldin_scores = []
 
@@ -51,6 +52,7 @@ def analysis_run(X, cluster_obj, range_n_clusters = [2, 3, 4, 5, 6]):
         # This gives a perspective into the density and separation of the formed
         # clusters
         silhouette_avg = silhouette_score(X, cluster_labels)
+        silhouette_scores.append(silhouette_avg)
         print("For n_clusters =", n_clusters,
               "The average silhouette_score is :", silhouette_avg,
               "The david bouldin score is:", david_bouldin_score,
@@ -108,7 +110,7 @@ def analysis_run(X, cluster_obj, range_n_clusters = [2, 3, 4, 5, 6]):
                             s=50, edgecolor='k')
     
         except AttributeError:
-            centers = cluster_obj._clusterer.components_
+            pass
         # Draw white circles at cluster centers
         ax2.set_title("The visualization of the clustered data.")
         ax2.set_xlabel("Feature space for the 1st feature")
@@ -121,11 +123,17 @@ def analysis_run(X, cluster_obj, range_n_clusters = [2, 3, 4, 5, 6]):
     silhouette_avg = silhouette_score(X, cluster_labels)
     #Calinski Score
     fig, ax = plt.subplots(1, 1)
+    ax.plot(range_n_clusters, silhouette_scores, marker="o")
+    ax.set_title("Silhouette index score vs number of clusters")
+    ax.set_xlabel("Number of clusters")
+    ax.set_ylabel("Silhouette index score")
+    #Calinski Score
+    fig, ax = plt.subplots(1, 1)
     ax.plot(range_n_clusters, calisnki_scores, marker="o")
     ax.set_title("Calinski Score vs number of clusters")
     ax.set_xlabel("Number of clusters")
     ax.set_ylabel("Calinski index score")
-    plt.savefig("calinski_score.png")
+    plt.savefig("silhouette_score.png")
     #David Bouldin index
     fig, ax = plt.subplots(1, 1)
     ax.plot(range_n_clusters, david_bouldin_scores, marker="o")
