@@ -1,0 +1,38 @@
+package:
+  name: cluster_drug_discovery
+  version: "1.0.0"
+
+about:
+  home: https://github.com/danielSoler93/cluster_drug_discovery
+  license: Apache
+  license_file: LICENSE
+  summary: Cluster Algorithms for Drug Discovery
+
+source:
+  path: ../
+
+build:
+  script: python -m pip install . --no-deps -vv
+  number: 0
+
+requirements:
+  host:
+    - python 3
+
+  run:
+    # Base dependencies
+    - python 3
+    - tqdm
+    - rdkit
+    - matplotlib
+    - umap-learn
+    - scikit-learn 
+    - mpld3
+
+test:
+  imports:
+    - cluster_algorithms
+  source_files:
+    - tests
+  requires:
+    - pytest
