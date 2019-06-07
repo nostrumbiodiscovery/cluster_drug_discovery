@@ -4,21 +4,9 @@ import cluster_drug_discovery.methods.clusterclass as cls
 
 class AgglomerativeAlg(cls.Cluster):
     """
-     K-Means Clustering Advantages and Disadvantages
-     K-Means Advantages :
-    
-     1) If variables are huge, then  K-Means most of the times computationally faster than hierarchical clustering, if we keep k smalls.
-    
-     2) K-Means produce tighter clusters than hierarchical clustering, especially if the clusters are globular.
-    
-     K-Means Disadvantages :
-    
-     1) Difficult to predict K-Value.
-     2) With global cluster, it didn't work well.
-     3) Different initial partitions can result in different final clusters.
-     4) It does not work well with different size and density clusters
-     
-     Implementation from : https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans
+     Hierarchical clustering is a general family of clustering algorithms that build nested clusters by merging or splitting them successively. This hierarchy of clusters is represented as a tree (or dendrogram). The root of the tree is the unique cluster that gathers all the samples, the leaves being the clusters with only one sample. See the Wikipedia page for more details.
+
+     Implementation from : https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html#sklearn.cluster.AgglomerativeClustering
     """
     def __init__(self, data, nclust):
         cls.Cluster.__init__(self, data)
