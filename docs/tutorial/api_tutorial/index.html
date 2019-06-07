@@ -98,6 +98,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#clustering-algorithms">Clustering Algorithms</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#kmeans">Kmeans</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dbscan">DBSCAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hierarchichal">Hierarchichal</a></li>
 </ul>
 </li>
 </ul>
@@ -318,6 +319,79 @@ together with some visualization tool (dimensionallity reduction).</p>
 <p>DBSCAN works for non globular clusters but suffers with high dimensionallity</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../../_images/dbscan.png"><img alt="../../_images/dbscan.png" src="../../_images/dbscan.png" style="width: 512.0px; height: 384.0px;" /></a>
+</div>
+</div>
+<div class="section" id="hierarchichal">
+<h3>Hierarchichal<a class="headerlink" href="#hierarchichal" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul>
+<li><p class="first">Advantages</p>
+<blockquote>
+<div><ul class="simple">
+<li>No apriori information about the number of clusters required.</li>
+<li>Easy to implement and gives best result in some cases.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Disadvantages</p>
+<blockquote>
+<div><ul class="simple">
+<li>Algorithm can never undo what was done previously.</li>
+<li></li>
+<li>Time complexity of at least O(n2 log n) is required, where ‘n’ is the number of data points.</li>
+<li></li>
+<li>Based on the type of distance matrix chosen for merging different algorithms can suffer with outliers &amp; complexity</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<blockquote>
+<div><p>Learn more: <a class="reference external" href="https://en.wikipedia.org/wiki/Hierarchical_clustering">https://en.wikipedia.org/wiki/Hierarchical_clustering</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cluster_drug_discovery.methods</span> <span class="k">import</span> <span class="n">agglomerative</span>
+<span class="n">cluster</span> <span class="o">=</span> <span class="n">agglomerative</span><span class="o">.</span><span class="n">AgglomerativeAlg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">nclust</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">i_dataset</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div></blockquote>
+<p>Agglomerative Clustering works for globular data but not convex datasets</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/agglomerative.png"><img alt="../../_images/agglomerative.png" src="../../_images/agglomerative.png" style="width: 512.0px; height: 384.0px;" /></a>
+</div>
+<blockquote>
+<div><blockquote>
+<div><ul class="simple">
+<li>No apriori information about the number of clusters required.</li>
+<li>Easy to implement and gives best result in some cases.</li>
+</ul>
+</div></blockquote>
+<ul>
+<li><p class="first">Disadvantages</p>
+<blockquote>
+<div><ul class="simple">
+<li>Algorithm can never undo what was done previously.</li>
+<li></li>
+<li>Time complexity of at least O(n2 log n) is required, where ‘n’ is the number of data points.</li>
+<li></li>
+<li>Based on the type of distance matrix chosen for merging different algorithms can suffer with outliers &amp; complexity</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<blockquote>
+<div><p>Learn more: <a class="reference external" href="https://en.wikipedia.org/wiki/Hierarchical_clustering">https://en.wikipedia.org/wiki/Hierarchical_clustering</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cluster_drug_discovery.methods</span> <span class="k">import</span> <span class="n">agglomerative</span>
+<span class="n">cluster</span> <span class="o">=</span> <span class="n">agglomerative</span><span class="o">.</span><span class="n">AgglomerativeAlg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">nclust</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">i_dataset</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div></blockquote>
+<p>Agglomerative Clustering works for globular data but not convex datasets</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/agglomerative.png"><img alt="../../_images/agglomerative.png" src="../../_images/agglomerative.png" style="width: 512.0px; height: 384.0px;" /></a>
 </div>
 </div>
 </div>

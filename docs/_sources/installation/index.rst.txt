@@ -6,7 +6,7 @@ From Conda (recommended)
 
 ::
 
- conda install -c NostrumBioDiscovery analogs_finder
+ conda install -c NostrumBioDiscovery cluster_drug_discovery
 
 
 From PyPi
@@ -14,7 +14,7 @@ From PyPi
 
 ::
 
- pip install analogs_finder
+ ongoing
 
  
 From Source Code
@@ -22,9 +22,9 @@ From Source Code
 
 ::
 
- git clone https://github.com/danielSoler93/analogs_finder.git
+ git clone https://github.com/danielSoler93/cluster_drug_discovery
  
- cd analogs_finder
+ cd cluster_drug_discovery
 
  python setup.py install
 

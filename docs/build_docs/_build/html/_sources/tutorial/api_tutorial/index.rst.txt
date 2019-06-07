@@ -193,3 +193,35 @@ Agglomerative Clustering works for globular data but not convex datasets
     :scale: 80%
     :align: center
 
+
+```````````````````````````````
+    - Advantages
+    
+         - No apriori information about the number of clusters required.
+        
+         - Easy to implement and gives best result in some cases.
+    
+    
+    - Disadvantages
+    
+         - Algorithm can never undo what was done previously.
+         -
+         - Time complexity of at least O(n2 log n) is required, where ‘n’ is the number of data points.
+         -
+         - Based on the type of distance matrix chosen for merging different algorithms can suffer with outliers & complexity   
+     
+     Learn more: https://en.wikipedia.org/wiki/Hierarchical_clustering
+
+     ::
+
+        from cluster_drug_discovery.methods import agglomerative
+        cluster = agglomerative.AgglomerativeAlg(X, nclust=3) 
+        y_pred = cluster.run()
+        pl.plot(X[:, 0], X[:, 1], y_pred, output=str(i_dataset))
+
+Agglomerative Clustering works for globular data but not convex datasets
+    
+.. figure:: images/agglomerative.png
+    :scale: 80%
+    :align: center
+

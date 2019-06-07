@@ -6,12 +6,12 @@ Here we report all changes thorugh all different releases on: `MSM github <https
 1.0.0 - not yet there
 ---------------------------------
 
-    - Initial release with 5 query methods:
-        - Most n similars
-        - Tanimoto similarity based
-        - Substructure matching
-        - Several substructure matching
-        - Similarity based with substructure matching
+    - Initial release with 3 clustering methods:
+        - Kmeans
+        - Dbscan
+        - Agglomerative Clustering
 
-    - And 1 rank method:
-        - Pharmacophore alignment (schrodinger need it)
+    - And 3 analysis method:
+        - Silhouetter index
+        - Calinski-Harabasz index
+        - DB index
