@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.cm as cm
 import pandas as pd
 
 
@@ -34,6 +35,7 @@ def plot(X, Y, labels, title="plot", fontsize=24, output="proj.png", true_false=
         ax.scatter(x_true, y_true, c="g")
         ax.scatter(x_false, y_false, c="r")
     else:
-        ax.scatter(X, Y, c=[sns.color_palette()[y] for y in np.array(labels)])
+        colors = cm.nipy_spectral(labels.astype(float) / (max(labels)+1))
+        ax.scatter(X, Y, c=colors)
     ax.set_title(title)
     fig.savefig(output)
