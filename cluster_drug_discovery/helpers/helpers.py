@@ -1,7 +1,6 @@
 import os
 import re
 import random
-import msm_pele.Helpers.best_structs as bs
 
 
 class cd:
