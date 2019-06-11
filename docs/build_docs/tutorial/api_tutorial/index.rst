@@ -19,9 +19,9 @@ Tha analysis is based on:
   from sklearn import cluster, datasets, mixture
   import cluster_drug_discovery.methods.kmeans as ks
 
-  X, y = datasets.make_blobs(n_samples=n_samples, random_state=random_state)
+  X, y = datasets.make_blobs(n_samples=1500, random_state=170)
   cluster = ks.KmeansAlg(X, nclust=3)
-  cluster.analysis_run() 
+  cluster.analyze() 
 
 
 Silhouette
@@ -34,6 +34,11 @@ Therefore, when we move from 3 to 4 clusters the silhouette index
 of the first and second cluster clearly drops as they are next to each 
 other in the feature space while with nclusters=3 all clusters were very
 separated.
+
+In case of having a 2D dataset the plot will be the values of the samples.
+If the dataset is 3D or higher the plot will show the first two pca components.
+However, we will retrieve umap plots to include non linear dimensionallity reduction
+techniques. (Learn more three sections below)
 
 
 .. figure:: images/silhouette_2.png
@@ -81,6 +86,17 @@ values does no change that much.
     :scale: 80%
     :align: center
 
+Umap Projection
+``````````````````
+Universal manifold dimensionallity reduction technique is a non linear transformation that tries
+to keep the distance between similar datapoints while emphasizing these one between disimilar samples.
+It is very useful when trying to visualize a high dimensionallity dataset where pca is discriminative enough.
+
+
+.. figure:: images/umap_12.png
+    :scale: 80%
+    :align: center
+
 
 Analysis Conclusion
 `````````````````````
@@ -115,9 +131,10 @@ Kmeans
      ::
 
         from cluster_drug_discovery.methods import kmeans
+        import matplotlib.pyplot as plt
         cluster = kmeans.KmeansAlg(X, nclust=3) 
         y_pred = cluster.run()
-        pl.plot(X[:, 0], X[:, 1], y_pred, output=str(i_dataset))
+        plt.plot(X[:, 0], X[:, 1], y_pred)
 
 Kmeans works for globular clusters:
     

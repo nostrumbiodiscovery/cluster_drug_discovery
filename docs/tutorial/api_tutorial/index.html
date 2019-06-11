@@ -92,6 +92,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#silhouette">Silhouette</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#carlinski">Carlinski</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#david-bouldin">David-Bouldin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#umap-projection">Umap Projection</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#analysis-conclusion">Analysis Conclusion</a></li>
 </ul>
 </li>
@@ -188,9 +189,9 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="k">import</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">mixture</span>
 <span class="kn">import</span> <span class="nn">cluster_drug_discovery.methods.kmeans</span> <span class="k">as</span> <span class="nn">ks</span>
 
-<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">170</span><span class="p">)</span>
 <span class="n">cluster</span> <span class="o">=</span> <span class="n">ks</span><span class="o">.</span><span class="n">KmeansAlg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">nclust</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">cluster</span><span class="o">.</span><span class="n">analysis_run</span><span class="p">()</span>
+<span class="n">cluster</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
 </pre></div>
 </div>
 <div class="section" id="silhouette">
@@ -202,6 +203,10 @@ a sense of how separate each point is from the other clusters.</p>
 of the first and second cluster clearly drops as they are next to each
 other in the feature space while with nclusters=3 all clusters were very
 separated.</p>
+<p>In case of having a 2D dataset the plot will be the values of the samples.
+If the dataset is 3D or higher the plot will show the first two pca components.
+However, we will retrieve umap plots to include non linear dimensionallity reduction
+techniques. (Learn more three sections below)</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../../_images/silhouette_2.png"><img alt="../../_images/silhouette_2.png" src="../../_images/silhouette_2.png" style="width: 900.0px; height: 350.0px;" /></a>
 </div>
@@ -234,6 +239,15 @@ distance gets better. However, from nclust=3 and nclust=4 the intra-cluster dist
 values does no change that much.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../../_images/davidbouldin_score.png"><img alt="../../_images/davidbouldin_score.png" src="../../_images/davidbouldin_score.png" style="width: 512.0px; height: 384.0px;" /></a>
+</div>
+</div>
+<div class="section" id="umap-projection">
+<h3>Umap Projection<a class="headerlink" href="#umap-projection" title="Permalink to this headline">¶</a></h3>
+<p>Universal manifold dimensionallity reduction technique is a non linear transformation that tries
+to keep the distance between similar datapoints while emphasizing these one between disimilar samples.
+It is very useful when trying to visualize a high dimensionallity dataset where pca is discriminative enough.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/umap_12.png"><img alt="../../_images/umap_12.png" src="../../_images/umap_12.png" style="width: 512.0px; height: 384.0px;" /></a>
 </div>
 </div>
 <div class="section" id="analysis-conclusion">
@@ -270,9 +284,10 @@ together with some visualization tool (dimensionallity reduction).</p>
 </ul>
 <p>Learn more: <a class="reference external" href="https://en.wikipedia.org/wiki/K-means_clustering">https://en.wikipedia.org/wiki/K-means_clustering</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cluster_drug_discovery.methods</span> <span class="k">import</span> <span class="n">kmeans</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">cluster</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">KmeansAlg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">nclust</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">i_dataset</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></blockquote>
