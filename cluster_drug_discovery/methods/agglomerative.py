@@ -13,7 +13,7 @@ class AgglomerativeAlg(cls.Cluster):
         self.nclust = nclust
 
     def _run(self):
-        print("Clustering with Kmeans Algorithm...")
+        print("Clustering with Agglomerative Clustering...")
         self._clusterer = AgglomerativeClustering(n_clusters=self.nclust)
         return self._clusterer.fit_predict(self.data)
 
