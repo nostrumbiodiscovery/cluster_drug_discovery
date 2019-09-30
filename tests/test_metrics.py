@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('pdf')
 import os
 import shutil
 from sklearn.datasets import load_wine
@@ -9,7 +11,6 @@ X = data.data
 
 def test_metrics(X=X):
     output = os.path.join(os.getcwd(), "analisis")
-    print(output)
     if os.path.exists(output):
         shutil.rmtree(output)
     cluster = kmeans.KmeansAlg(X, nclust=3)
