@@ -62,3 +62,6 @@ deploy:
     on:
 tags: true
 
+# Push the results back to codecov
+after_success:
+  - codecov --token 79c4a784-29d6-4ea1-a528-f7508a7f14ad
