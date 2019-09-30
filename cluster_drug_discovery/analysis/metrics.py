@@ -8,7 +8,7 @@ import cluster_drug_discovery.visualization.plots as pl
 
 
 
-def analysis_run(X, cluster_obj, range_n_clusters = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11 , 12, 13, 14, 15, 16, 17]):
+def analysis_run(X, cluster_obj, range_n_clusters = [2, 3, 4, 5, 6]):
 
     silhouette_scores = []
     sample_silhouette_maxs = []
@@ -110,7 +110,7 @@ def analysis_run(X, cluster_obj, range_n_clusters = [2, 3, 4, 5, 6, 7, 8, 9, 10,
         # 2nd Plot showing the actual clusters formed
         # Show normal plot if dimension == 2 or less otherwise
         # perform pca and umap
-        if X.shape[1] <= 2:
+        if np.array(X).shape[1] <= 2:
             colors = cm.nipy_spectral(cluster_labels.astype(float) / n_clusters)
             ax2.scatter(X[:, 0], X[:, 1], marker='.', s=30, lw=0, alpha=0.7,
                         c=colors, edgecolor='k')
@@ -131,9 +131,12 @@ def analysis_run(X, cluster_obj, range_n_clusters = [2, 3, 4, 5, 6, 7, 8, 9, 10,
                      fontsize=14, fontweight='bold')
         plt.savefig(output)
 
-        if umap_embedding is None:
-            umap_embedding = cluster_obj.compute_umap()
-        pl.plot(umap_embedding[:,0], umap_embedding[:, 1], cluster_labels, output="umap_{}.png".format(n_clusters))
+        try:
+            if umap_embedding is None:
+                    umap_embedding = cluster_obj.compute_umap()
+            pl.plot(umap_embedding[:,0], umap_embedding[:, 1], cluster_labels, output="umap_{}.png".format(n_clusters))
+        except Exception:
+            pass
 
     #Silhouette Max Score
     try:
